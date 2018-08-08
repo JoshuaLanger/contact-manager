@@ -1,35 +1,38 @@
 import React, { Component } from 'react';
+import Contact from './Contact';
+import { Consumer } from '../context';
 
 class Contacts extends Component {
-  constructor() {
-    super();
-    this.state = {
-      contacts: [
-        {
-          id: 1,
-          name: 'Billy Bob',
-          address: '1234 Mary Lane',
-          email: 'billybob@gmail.com'
-        },
-        {
-          id: 2,
-          name: 'Bob Billybob',
-          address: '1234 Mary Lane',
-          email: 'bobthebilly@yahoo.com'
-        },
-        {
-          id: 3,
-          name: 'Billy Jean',
-          address: '1234 Mary Lane',
-          email: 'billyjean@netscape.net'
-        }
-      ]
-    };
-  }
+  removeContact = id => {
+    const { contacts } = this.state;
+    const newContacts = contacts.filter(contact => contact.id !== id);
+    this.setState({
+      contacts: newContacts
+    });
+  };
 
   render() {
-    const { contacts } = this.state;
-    return <div>{contacts.map(contact => <h1>{contact.name}</h1>)}</div>;
+    return (
+      <Consumer>
+        {value => {
+          const { contacts } = value;
+          return (
+            <React.Fragment>
+              {contacts.map(contact => (
+                <Contact
+                  key={contact.id}
+                  contact={contact}
+                  handleRemoveContact={this.removeContact.bind(
+                    this,
+                    contact.id
+                  )}
+                />
+              ))}
+            </React.Fragment>
+          );
+        }}
+      </Consumer>
+    );
   }
 }
 
