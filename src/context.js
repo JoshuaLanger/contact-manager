@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 const Context = React.createContext();
 
 const REMOVE_CONTACT = 'REMOVE_CONTACT';
+const ADD_CONTACT = 'ADD_CONTACT';
+
 const reducer = (state, action) => {
   switch (action.type) {
     case REMOVE_CONTACT:
@@ -11,6 +13,11 @@ const reducer = (state, action) => {
         contacts: state.contacts.filter(
           contact => contact.id !== action.payload
         )
+      };
+    case ADD_CONTACT:
+      return {
+        ...state,
+        contacts: [action.payload, ...state.contacts]
       };
     default:
       return state;
