@@ -39,6 +39,17 @@ class AddContact extends Component {
       email
     };
     dispatch({ type: 'ADD_CONTACT', payload: newContact });
+
+    // Clear State
+    this.setState({
+      name: '',
+      address: '',
+      email: '',
+      errors: {}
+    });
+
+    // Return to Home Page
+    this.props.history.push('/');
   };
 
   render() {
