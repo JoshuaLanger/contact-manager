@@ -34,9 +34,18 @@ export class Provider extends Component {
   };
 
   componentDidMount() {
-    axios
-      .get('https://jsonplaceholder.typicode.com/users')
-      .then(res => console.log(res.data));
+    axios.get('https://jsonplaceholder.typicode.com/users').then(res =>
+      this.setState({
+        contacts: res.data.map(i => {
+          return {
+            id: i.id,
+            name: i.name,
+            address: `${i.address.suite} ${i.address.street}`,
+            email: i.email
+          };
+        })
+      })
+    );
   }
 
   render() {
